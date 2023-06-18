@@ -12,6 +12,7 @@ use crate::bindings::{
 /// `RoboCupGameControlReturnData::version`, `RoboCupGameControlReturnData::pose`, and
 /// `RoboCupGameControlReturnData::ball` are implicitly added/removed when converting to/from the
 /// binary format.
+#[derive(Debug)]
 pub struct VrcMessage {
     /// This field corresponds to `RoboCupGameControlReturnData::playerNum`.
     pub player_number: u8,

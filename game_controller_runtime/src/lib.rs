@@ -29,7 +29,7 @@ use game_controller_core::{
     types::{ActionSource, Game, Params, PlayerNumber, Side},
     GameController,
 };
-use game_controller_msgs::{MonitorRequest, StatusMessage};
+use game_controller_msgs::{MonitorRequest, StatusMessage, VrcMessage};
 use game_controller_net::{
     ControlMessageSender, Event, MonitorRequestReceiver, StatusMessageForwarder,
     StatusMessageReceiver, TeamMessageReceiver,
@@ -266,7 +266,10 @@ async fn event_loop(
                         // because then the monitor can display this fact. We must ignore errors
                         // here because it is possible that nobody is subscribed at the moment.
                         let _ = status_forward_sender.send((host, data.clone()));
-                        if let Ok(status_message) = StatusMessage::try_from(data) {
+                        if let Ok(vrc_message) = VrcMessage::try_from(data.clone()) {
+                            println!("{:?}", vrc_message);
+                        }
+                        else if let Ok(status_message) = StatusMessage::try_from(data) {
                             if let Some(side)
                                 = game_controller.params.game.get_side(status_message.team_number)
                             {
